@@ -1,22 +1,24 @@
+"""
+Final Grade Calculator that considers weighted categories and point totals.
+Built out of necessity for my own high school and university's grading systems.
+Terminal-based UI
+
+Made by Richard Zhu
+Improved version utilizing abstract data types
+"""
+
 from category_type import *
 
-
 def start(): #Introduction to the calculator
-    global final_category_inputted
-    global category_num
-    global total_class_percent
+    global final_category_inputted, category_num, total_class_percent
     final_category_inputted = False
     total_class_percent = 0
     class_cats = []
     category_num = 1
     fp = 0
 
-    print(" ")
-    print(" ")
-    print(" ")
-    print("Final Grade Calculator:")
-    print("Follow the instructions carefully to find out what grade you need on an assignment/exam to maintain a certain grade.")
-    print("---------------------------------------------------------------------------------------------")
+    start_text()
+
     while total_class_percent < 100 and None not in class_cats:
         current_category = cat()
         if final_points(current_category) > 0:
@@ -26,19 +28,21 @@ def start(): #Introduction to the calculator
         category_num += 1
     dg = find_desired_grade()
     needed_grade = calculate(class_cats, dg)
-    print("You need a " + str(needed_grade) + "/" + str(fp) + " for a " + str(dg) + " in the class.")
+    print("***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg ))
     print("")
-    print("Type 'restart' to restart or 'quit' to quit")
-    answer = input()
-    if answer[0] == 'r':
-        start()
-
+    restart()
 
 def error():
-    print("ERROR: Your input does not make sense (Negative points, categories add up to over 100 percent, etc). Type restart to restart")
+    print("ERROR: Your input does not make sense (Negative points, categories add up to over 100 percent, etc)")
+    restart()
+
+def restart():
+    print("Type restart to restart or q to quit")
     answer = input()
     if answer[0] == "r":
         start()
+    #if answer[0] == 'q'
+        #return None
 
 def calculate(class_cats, desired_grade_percent ):
     pn = points_needed(class_cats, desired_grade_percent)
@@ -97,5 +101,14 @@ def find_desired_grade():
     print("What is your desired grade?")
     answer = float(input())
     return answer
-#test comment, look at me on github
+
+def start_text():
+    print(" ")
+    print(" ")
+    print(" ")
+    print("Final Grade Calculator:")
+    print("Follow the instructions carefully to find out what grade you need on an assignment/exam to maintain a certain grade.")
+    print("---------------------------------------------------------------------------------------------")
+
+
 start()

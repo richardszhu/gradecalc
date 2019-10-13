@@ -1,3 +1,7 @@
+"""
+Implementation of the Category abstract data type
+
+"""
 def category(weight, points, total_points, final_points=0):
     return [weight, points, total_points, final_points]
 
