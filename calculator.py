@@ -38,12 +38,14 @@ def error():
 
 def restart():
     print("Type restart to restart or q to quit")
+    #all words that don't start with r will quit
     answer = input()
     if answer[0] == "r":
         start()
-    #if answer[0] == 'q'
-        #return None
-
+    """
+    if answer[0] == 'q'
+        return None
+    """
 def calculate(class_cats, desired_grade_percent ):
     pn = points_needed(class_cats, desired_grade_percent)
     return pn
