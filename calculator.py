@@ -26,17 +26,18 @@ def start(): #Introduction to the calculator
         total_class_percent += weight(current_category)
         class_cats += [current_category]
         category_num += 1
+
     dg = find_desired_grade()
     needed_grade = calculate(class_cats, dg)
     print("***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg ))
     print("")
-    restart()
+    restart_or_quit()
 
 def error():
     print("ERROR: Your input does not make sense (Negative points, categories add up to over 100 percent, etc)")
-    restart()
+    restart_or_quit()
 
-def restart():
+def restart_or_quit():
     print("Type restart to restart or q to quit")
     #all words that don't start with r will quit
     answer = input()
@@ -46,6 +47,7 @@ def restart():
     if answer[0] == 'q'
         return None
     """
+
 def calculate(class_cats, desired_grade_percent ):
     pn = points_needed(class_cats, desired_grade_percent)
     return pn
@@ -111,6 +113,5 @@ def start_text():
     print("Final Grade Calculator:")
     print("Follow the instructions carefully to find out what grade you need on an assignment/exam to maintain a certain grade.")
     print("---------------------------------------------------------------------------------------------")
-
 
 start()
