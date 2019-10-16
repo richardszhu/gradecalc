@@ -30,8 +30,8 @@ def start():  # Introduction to the calculator
 
     dg = find_desired_grade()
     needed_grade = calculate(class_cats, dg)
-    print(
-        "***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg))
+    print("")
+    print("***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg))
     print("")
     restart_or_quit()
 
@@ -42,7 +42,7 @@ def error():
 
 
 def restart_or_quit():
-    print("Type restart to restart or q to quit")
+    print("Type restart to restart or quit to quit")
     # all words that don't start with r will quit
     answer = input()
     if answer[0] == "r":
