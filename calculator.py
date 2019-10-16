@@ -9,7 +9,8 @@ Improved version utilizing abstract data types
 
 from category_type import *
 
-def start(): #Introduction to the calculator
+
+def start():  # Introduction to the calculator
     global final_category_inputted, category_num, total_class_percent
     final_category_inputted = False
     total_class_percent = 0
@@ -29,17 +30,20 @@ def start(): #Introduction to the calculator
 
     dg = find_desired_grade()
     needed_grade = calculate(class_cats, dg)
-    print("***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg ))
+    print(
+        "***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg))
     print("")
     restart_or_quit()
+
 
 def error():
     print("ERROR: Your input does not make sense (Negative points, categories add up to over 100 percent, etc)")
     restart_or_quit()
 
+
 def restart_or_quit():
     print("Type restart to restart or q to quit")
-    #all words that don't start with r will quit
+    # all words that don't start with r will quit
     answer = input()
     if answer[0] == "r":
         start()
@@ -48,9 +52,11 @@ def restart_or_quit():
         return None
     """
 
-def calculate(class_cats, desired_grade_percent ):
+
+def calculate(class_cats, desired_grade_percent):
     pn = points_needed(class_cats, desired_grade_percent)
     return pn
+
 
 def cat():
     w = find_weight()
@@ -59,32 +65,39 @@ def cat():
     fp = 0
     if not final_category_inputted:
         fp = find_final_category()
-
     return category(w, p, tp, fp)
 
+
 def find_weight():
-    print("Category " + str(category_num) + ": What percentage of the total grade is this category worth?")
+    print("Category " + str(category_num) +
+          ": What percentage of the total grade is this category worth?")
     answer = float(input())
-    if answer <= 0 or answer + total_class_percent > 100 :
+    if answer <= 0 or answer + total_class_percent > 100:
         return error()
     return answer
+
 
 def find_total_points():
-    print("Category " + str(category_num) + ": How many TOTAL points are in this category already?")
+    print("Category " + str(category_num) +
+          ": How many TOTAL points are in this category already?")
     answer = float(input())
     if answer < 0:
         return error()
     return answer
+
 
 def find_points():
-    print("Category " + str(category_num) + ": How many points have you EARNED in this category so far?")
+    print("Category " + str(category_num) +
+          ": How many points have you EARNED in this category so far?")
     answer = float(input())
     if answer < 0:
         return error()
     return answer
 
+
 def find_final_category():
-    print("Category " + str(category_num) + ": Is the FINAL contained in this category? ('yes' or 'no')")
+    print("Category " + str(category_num) +
+          ": Is the FINAL contained in this category? ('yes' or 'no')")
     answer = input()
     if answer[0] == 'y':
         return find_final_points()
@@ -92,6 +105,7 @@ def find_final_category():
         return 0
     else:
         return error()
+
 
 def find_final_points():
     final_category_inputted = True
@@ -101,10 +115,12 @@ def find_final_points():
         return error()
     return answer
 
+
 def find_desired_grade():
     print("What is your desired grade?")
     answer = float(input())
     return answer
+
 
 def start_text():
     print(" ")
@@ -113,5 +129,6 @@ def start_text():
     print("Final Grade Calculator:")
     print("Follow the instructions carefully to find out what grade you need on an assignment/exam to maintain a certain grade.")
     print("---------------------------------------------------------------------------------------------")
+
 
 start()
