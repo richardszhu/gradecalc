@@ -121,7 +121,14 @@ def find_desired_grade():
     answer = float(input())
     return answer
 
+"""
+Final Grade Calculator that considers weighted categories and point totals.
+Built out of necessity for my own high school and university's grading systems.
+Terminal-based UI
 
+Made by Richard Zhu
+Improved version utilizing abstract data types
+"""
 def start_text():
     print(" ")
     print(" ")
@@ -130,5 +137,6 @@ def start_text():
     print("Follow the instructions carefully to find out what grade you need on an assignment/exam to maintain a certain grade.")
     print("---------------------------------------------------------------------------------------------")
 
-
+print("Final Grade Calculator that considers weighted categories and point totals.")
+print("Made by Richard Zhu")
 start()
