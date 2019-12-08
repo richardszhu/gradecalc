@@ -47,10 +47,6 @@ def restart_or_quit():
     answer = input()
     if answer[0] == "r":
         start()
-    """
-    if answer[0] == 'q'
-        return None
-    """
 
 
 def calculate(class_cats, desired_grade_percent):
