@@ -1,5 +1,5 @@
 """
-Final Grade Calculator that considers weighted categories and point totals.
+Final Grade Calculator CLI that considers weighted categories and point totals.
 Built out of necessity for my own high school and university's grading systems.
 Terminal-based UI
 
@@ -9,123 +9,68 @@ Improved version utilizing abstract data types
 
 from category_type import *
 
+class Category:
+    def __init__(self, category_percent_sum, final_category, i):
+        self.percent = float(input(f"What percentage is category #{i} weighted?"))
+        if self.percent <= 0:
+            raise ValueError("Weight of category must be positive")
+        if category_percent_sum + self.percent > 100:
+            raise ValueError("Weight of categories sums to over 100%")
 
-def start():  # Introduction to the calculator
-    global final_category_inputted, category_num, total_class_percent
-    final_category_inputted = False
-    total_class_percent = 0
-    class_cats = []
-    category_num = 1
-    fp = 0
+        self.existing_points = float(input("How many points have been assigned in this category?"))
+        if self.existing_points < 0:
+            raise ValueError("Points assigned must be non-negative")
 
-    start_text()
+        self.achieved_points = float(input("How many points have you gotten in this category?"))
 
-    while total_class_percent < 100 and None not in class_cats:
-        current_category = cat()
-        if final_points(current_category) > 0:
-            fp = final_points(current_category)
-        total_class_percent += weight(current_category)
-        class_cats += [current_category]
-        category_num += 1
+        if not final_category:
+            if category_percent_sum + self.percent == 100:
+                self.contains_final = True
+            else:
+                self.contains_final = input("Does this category have the final exam? [y/n]")[0].lower() == "y"
+        else:
+            self.contains_final = False
 
-    dg = find_desired_grade()
-    needed_grade = calculate(class_cats, dg)
-    print("")
-    print("***You need a {0}/{1} for a {2} in the class.***".format(needed_grade, fp, dg))
-    print("")
-    restart_or_quit()
-
-
-def error():
-    print("ERROR: Your input does not make sense (Negative points, categories add up to over 100 percent, etc)")
-    restart_or_quit()
+        self.final_points = float(input("How many points is the final exam worth?")) if self.contains_final else 0
+        if self.final_points < 0:
+            raise ValueError("Points assigned must be non-negative")
+        if self.final_points + self.percent == 0:
+            raise ValueError("Weight of category must be positive")
 
 
-def restart_or_quit():
-    print("Type restart to restart or quit to quit")
-    # all words that don't start with r will quit
-    answer = input()
-    if answer[0] == "r":
-        start()
+def start():
+    try:
+        any(print() for _ in range(3))
+
+        category_percent_sum = 0
+        final_category = None
+        cats = []
+        i = 1
+        while category_percent_sum < 100:
+            cat = Category(category_percent_sum, final_category, i)
+            category_percent_sum += cat.percent
+            if cat.contains_final:
+                final_category = cat
+            cats.append(cat)
+            i += 1
+
+        if not final_category:
+            raise ValueError("No final exam category")
+
+        desired_grade = float(input("What is your desired grade in the class?"))
+
+        other_cat_totals = sum(cat.achieved_points * cat.percent / cat.existing_points for cat in cats if cat is not final_category)
+        needed = (desired_grade - other_cat_totals) * (final_category.existing_points + final_category.final_points) / final_category.percent - final_category.achieved_points
+        print(f"***You need a {needed}/{final_category.final_points} for a {desired_grade} in the class.***")
+    except Exception as e:
+        print(e)
 
 
-def calculate(class_cats, desired_grade_percent):
-    pn = points_needed(class_cats, desired_grade_percent)
-    return pn
-
-
-def cat():
-    w = find_weight()
-    tp = find_total_points()
-    p = find_points()
-    fp = 0
-    if not final_category_inputted:
-        fp = find_final_category()
-    return category(w, p, tp, fp)
-
-
-def find_weight():
-    print("Category " + str(category_num) +
-          ": What percentage of the total grade is this category worth?")
-    answer = float(input())
-    if answer <= 0 or answer + total_class_percent > 100:
-        return error()
-    return answer
-
-
-def find_total_points():
-    print("Category " + str(category_num) +
-          ": How many TOTAL points are in this category already?")
-    answer = float(input())
-    if answer < 0:
-        return error()
-    return answer
-
-
-def find_points():
-    print("Category " + str(category_num) +
-          ": How many points have you EARNED in this category so far?")
-    answer = float(input())
-    if answer < 0:
-        return error()
-    return answer
-
-
-def find_final_category():
-    print("Category " + str(category_num) +
-          ": Is the FINAL contained in this category? ('yes' or 'no')")
-    answer = input()
-    if answer[0] == 'y':
-        return find_final_points()
-    elif answer[0] == 'n':
-        return 0
-    else:
-        return error()
-
-
-def find_final_points():
-    final_category_inputted = True
-    print("How many points is the final worth?")
-    answer = float(input())
-    if answer < 0:
-        return error()
-    return answer
-
-
-def find_desired_grade():
-    print("What is your desired grade?")
-    answer = float(input())
-    return answer
-
-
-def start_text():
-    print(" ")
-    print(" ")
-    print(" ")
-    print("Final Grade Calculator:")
-    print("Follow the instructions carefully to find out what grade you need on an assignment/exam to maintain a certain grade.")
-    print("---------------------------------------------------------------------------------------------")
-
-print("Final Grade Calculator that considers weighted categories and point totals.")
-print("Made by Richard Zhu")
+print("Richard's Final Grade Calculator CLI")
 start()
+while True:
+    response = input("Type q to quit, or enter to restart")
+    if not response or response[0].lower() != "q": 
+        start()
+    else:
+        break
