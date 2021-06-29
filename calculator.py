@@ -4,10 +4,7 @@ Built out of necessity for my own high school and university's grading systems.
 Terminal-based UI
 
 Made by Richard Zhu
-Improved version utilizing abstract data types
 """
-
-from category_type import *
 
 class Category:
     def __init__(self, category_percent_sum, final_category, i):
